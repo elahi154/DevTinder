@@ -3,17 +3,21 @@ const express=require('express');
 const app=express();
 
 
-app.use("/contact",(req,res) =>{
-    res.send("hey my name is contact");
-}); 
-app.use("/about/2",(req,res) =>{
-    res.send("hey my name is about 22222");
+app.get("/user",(req,res)=>{
+    res.send({fistName:"manzoor", lastName:"elahi", age:25 });
 });
-app.use("/about",(req,res) =>{
-    res.send("hey my name is about");
+app.post("/user",(req,res)=>{
+    res.send("data save to database");
 });
-app.use("/",(req,res) =>{
-    res.send("hey my name is home");
+app.put("/user",(req,res)=>{
+    res.send("data updated in database");
+});
+app.delete("/user",(req,res)=>{
+    res.send("data deleted from database");
+});
+
+app.use("/test",(req,res) =>{
+    res.send("hey my name is test");
 });
 
 app.listen(7777,()=>{
