@@ -3,7 +3,8 @@ const express=require('express');
 const app=express();
 
 
-app.get("/user",(req,res)=>{
+app.get("user/:useId",(req,res)=>{
+    //console.log(req.params);
     res.send({fistName:"manzoor", lastName:"elahi", age:25 });
 });
 app.post("/user",(req,res)=>{
