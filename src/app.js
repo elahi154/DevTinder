@@ -1,15 +1,44 @@
 const express=require('express');
-const auth = require('./Middleare/Auth');
+const {auth,user} = require('./Middleare/Auth');
+const connectDB  = require('./config/databse');
+const User = require('./models/userSchema');
+
+
 
 const app=express();
 
 app.use("/admin",auth);
+
+
+app.post("/signup",async(req,res)=>{
+    const user = new User({
+        firstName:"suman",
+        lastName:"kumar",
+        email:"suman@gmail.com",
+        password:"123456"
+
+    });
+    try {
+        await user.save();
+        res.send("user created successfully");
+        
+    } catch (error) {
+        res.status(400).send("Error creating user: " + error.message);
+    }
+    
+})
 
 app.get("/admin/getAllData",(req,res)=>{
    res.send("send all the data ");
 });
 app.get("/admin/deleteAllData",(req,res)=>{
    res.send("delete all the data from data baase ")
+})
+app.get("/user",user ,(req,res)=>{
+    res.send("hey this is user data ");
+})
+app.get("/user/login-page",(req,res)=>{
+    res.send("this is login oage ");
 })
 
 // app.use("/user",(req,res,next)=>{
@@ -43,8 +72,16 @@ app.get("/admin/deleteAllData",(req,res)=>{
 // app.use("/test",(req,res) =>{
 //     res.send("hey my name is test");
 // });
-
-app.listen(7777,()=>{
+connectDB()
+.then(()=>{
+    console.log("Database connected successfully");
+    app.listen(7777,()=>{
     console.log("server is running on port 7777");
 })
+}).catch((err)=>{
+    console.error("Database connection failed", err);   
+}
+);
+
+
 

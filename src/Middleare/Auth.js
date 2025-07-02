@@ -9,4 +9,19 @@ const auth = (req,res,next)=>{
         next();
     }
 }
-module.exports = auth;
+const user = (req,res,next)=>{
+    console.log("call user");
+    const tokens = "xyz";
+    isAuthentated = tokens === "xyz";
+    if(!isAuthentated){
+        return res.status(401).send("you are not authenticated");
+    }
+    else{
+        next();
+    }
+}
+
+module.exports = {
+    auth,
+    user
+}

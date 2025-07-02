@@ -4,13 +4,14 @@
   "description": "this app is dev tinder where developer can talk to each other",
   "main": "index.js",
   "scripts": {
-    "dev":"nodemon src/app.js",
+    "dev": "nodemon src/app.js",
     "start": "node src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "elahi__73",
   "license": "ISC",
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "mongoose": "^8.16.1"
   }
 }

@@ -15,3 +15,4 @@ how express js handle req behind the scenes
 diff b/w app.all, app.use 
 write a dummy auth middleware for /admin 
 write a dummy auth middleware for all the user except /user/login;
+
