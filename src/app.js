@@ -1,81 +1,37 @@
 const express=require('express');
-const {auth,user} = require('./Middleare/Auth');
 const connectDB  = require('./config/databse');
 const User = require('./models/userSchema');
-const { validateSignupData } = require('./utils/validation');
-const bcrypt = require('bcrypt'); // Assuming you have a bcrypt utility for hashing passwords
+const cors  = require('cors')
+require('dotenv').config()
+
+// Assuming you have a bcrypt utility for hashing passwords
 const cookieParser = require('cookie-parser');
 const Jwt = require('jsonwebtoken');
-const userAuth = require('./Middleare/Auth');
+
+const authRoute =require('./routes/userAuth');
+const profileRouter = require('./routes/userProfile');
+const requestRouter = require('./routes/requestCon');
 
 
 
 const app=express();
 app.use(express.json());
-app.use(cookieParser()); // Middleware to parse JSON bodies
+app.use(cookieParser());
+app.use(cors({
+    origin:"http://localhost:5173",
+    credentials:true,
+}))
 
-//app.use("/admin",auth);
+app.use("/",authRoute);
+app.use("/",profileRouter);
+app.use("/",requestRouter);
 
 
-app.post("/signup",async(req,res)=>{
-    try {
-    validateSignupData(req);
 
-    const {firstName, lastName, email, password} = req.body;
 
-    const passwordHash = await bcrypt.hash (password, 10);
-    
-    const user = new User({
-        firstName,
-        lastName,
-        email,  
-        password:passwordHash,});
-    
-        await user.save();
-        res.send("user created successfully");
-        
-    } catch (error) {
-        res.status(400).send("Error creating user: " + error.message);
-    }
-    
-});
 
-app.post("/login",async(req,res)=>{
-    try{
-        const {email, password} = req.body;
-        if (!email || !password) {
-            return res.status(400).send("Email and password are required");
-        }
-        
-        const user = await User.findOne({email});
-        if (!user) {
-            return res.status(404).send("User not found");
-        }
-        
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) {
-            return res.status(401).send("Invalid password");
-        }
-        const token = await Jwt.sign({_id:user._id}, "DEV@Tinder$790");
-        //console.log(token);
-        res.cookie("token",token);
-        
-        res.send("Login successful");
 
-    }catch(error){
-        res.status(400).send("Error logging in: " + error.message);
-    }
-});
 
-app.get('/profile',userAuth, async(req,res)=>{
-    try {
-        const user = req.user;
-    res.send(user);
-    }catch(error){
-        res.status(400).send("Error logging in: " + error.message);
-    }
-    
-})
 
 
 

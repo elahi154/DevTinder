@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -45,9 +46,19 @@ const userSchema = new mongoose.Schema({
     },
     gender:{
         type:String
-    }
+    },
+    about:{
+        type:String
+    },
     
 
 },{timestamps:true});
+
+userSchema.methods.getJWT = async function(){
+    const user = this;
+
+    const token = await jwt.sign({_id:user._id},"DEV@Tinder$790",{expiresIn:"7d"});
+    return token;
+}
 const User = mongoose.model("User",userSchema);
 module.exports = User;
