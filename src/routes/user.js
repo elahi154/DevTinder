@@ -13,7 +13,8 @@ userRouter.get("/user/request/received",userAuth,async(req,res)=>{
             toUserId:loggedInUser._id, 
             status:"interested",
 
-        }).populate("fromUserId", USER_SAFE_DATA)
+        }).populate("fromUserId",['firstName', 'lastName'])
+        res.send(connectionRequest)
 
     } catch (error) {
         console.log(error)
@@ -31,7 +32,7 @@ userRouter.get('/user/connections', userAuth,async(req,res)=>{
         }).populate("fromUserId", USER_SAFE_DATA)
           .populate("toUserId", USER_SAFE_DATA)
 
-        const data = ConnectionRequest.applyTimestamps((row)=>{
+        const data = connectionRequest.map((row)=>{
             if(row.fromUserId._id.toString()===loggedInUser._id.toString()){
                 return row.toUserId
             }
@@ -67,9 +68,10 @@ userRouter.get("/feed",userAuth,async(req,res)=>{
                 {_id:{$ne:loggedInUser._id}}
             ]
         }).select("firstName lastName email")
-.skip(skip).limit(limit);
+            .skip(skip).limit(limit);
         res.json({data:users})
     } catch (error) {
         console.log(error)
     }
 })
+module.exports=userRouter;

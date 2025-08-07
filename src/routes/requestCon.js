@@ -65,7 +65,7 @@ requestRouter.post("/sendConnectionRequest",userAuth,async(req,res)=>{
             toUserId:loggedInUser._id,
             status:"interested",
         })
-        if(!ConnectionRequest){
+        if(!connectionRequest){
             return res.status(404).json({messsage:"Connection Request not found"});
         }
         connectionRequest.status=status;

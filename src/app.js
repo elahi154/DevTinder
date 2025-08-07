@@ -11,6 +11,7 @@ const Jwt = require('jsonwebtoken');
 const authRoute =require('./routes/userAuth');
 const profileRouter = require('./routes/userProfile');
 const requestRouter = require('./routes/requestCon');
+const userRouter = require('./routes/user');
 
 
 
@@ -25,6 +26,7 @@ app.use(cors({
 app.use("/",authRoute);
 app.use("/",profileRouter);
 app.use("/",requestRouter);
+app.use('/',userRouter)
 
 
 
