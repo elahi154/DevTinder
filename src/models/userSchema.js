@@ -62,7 +62,7 @@ const userSchema = new mongoose.Schema({
     },
     photoUrl:{
         type:String,
-        default:"https://tse3.mm.bing.net/th/id/OIP.w0TcjC4y9CxTrY3sitYa_AAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+        default:"https://www.dgvaishnavcollege.edu.in/dgvaishnav-c/uploads/2021/01/dummy-profile-pic.jpg",
         validate(value) {
             if(!validator.isURL(value)){
                 throw new Error("Invalid Image url")
